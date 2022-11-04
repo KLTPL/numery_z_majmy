@@ -1,6 +1,6 @@
 import "./InputNumber.css";
 
-export type InputConfig = {
+export type InputNumberProps = {
   defaultValue: number;
   min: number | null;
   max: number | null;
@@ -8,15 +8,15 @@ export type InputConfig = {
   additionalOnChangeFunction: (ev: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-export default function InputNumber(inputConfig: InputConfig) {
+export default function InputNumber(InputNumberProps: InputNumberProps) {
   return (
     <input
       className="input"
       type="number"
-      defaultValue={inputConfig.defaultValue}
+      defaultValue={InputNumberProps.defaultValue}
       onChange={ev => {
-        const min = inputConfig.min; // if min==null => there's no min value
-        const max = inputConfig.max; // if max==null => there's no max value
+        const min = InputNumberProps.min; // if min==null => there's no min value
+        const max = InputNumberProps.max; // if max==null => there's no max value
         let num = parseInt(ev.target.value);
         if (isNaN(num)) {
           return;
@@ -28,10 +28,10 @@ export default function InputNumber(inputConfig: InputConfig) {
           num = max;
           ev.target.value = max.toString(); // doesn't trigger another onChange
         }
-        inputConfig.setFunction(num);
+        InputNumberProps.setFunction(num);
 
-        if (inputConfig.additionalOnChangeFunction !== null) {
-          inputConfig.additionalOnChangeFunction(ev);
+        if (InputNumberProps.additionalOnChangeFunction !== null) {
+          InputNumberProps.additionalOnChangeFunction(ev);
         }
       }}
     />
