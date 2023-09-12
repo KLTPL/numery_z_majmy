@@ -14,7 +14,7 @@ export default function App() {
   const [month, setMonth] = useState(newDate.getMonth() + 1);
   const [date, setDate] = useState(newDate.getDate());
   const [amountOfStudents, setAmountOfStudents] = useState(
-    isNaN(lStorageAmountOfSutdents) ? 34 : lStorageAmountOfSutdents
+    isNaN(lStorageAmountOfSutdents) ? 32 : lStorageAmountOfSutdents
   );
   const lastDayOfMonth = new Date(newDate.getFullYear(), month, 0).getDate();
   const [yourNumber, setYourNumber] = useState(
