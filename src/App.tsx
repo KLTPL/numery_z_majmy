@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import InputNumber from "./InputNumber";
 import "./App.css";
 
+const AMOUNT_OF_STUDENTS_DEFAULT = 32;
+
 export default function App() {
   const lStorageAmountOfSutdents = parseInt(
     localStorage.getItem("amountOfStudents") as string
@@ -14,13 +16,17 @@ export default function App() {
   const [month, setMonth] = useState(newDate.getMonth() + 1);
   const [date, setDate] = useState(newDate.getDate());
   const [amountOfStudents, setAmountOfStudents] = useState(
-    isNaN(lStorageAmountOfSutdents) ? 32 : lStorageAmountOfSutdents
+    isNaN(lStorageAmountOfSutdents)
+      ? AMOUNT_OF_STUDENTS_DEFAULT
+      : lStorageAmountOfSutdents
   );
   const lastDayOfMonth = new Date(newDate.getFullYear(), month, 0).getDate();
   const [yourNumber, setYourNumber] = useState(
     isNaN(lStorageYourNumber) ? 1 : lStorageYourNumber
   );
-  const [amountOfOutputs, setAmountOfOutputs] = useState(30);
+  const [amountOfOutputs, setAmountOfOutputs] = useState(
+    AMOUNT_OF_STUDENTS_DEFAULT
+  );
   const [output, setOutput] = useState(calcOutput);
 
   function calcOutput() {
@@ -31,7 +37,7 @@ export default function App() {
       while (tDate > amountOfStudents) {
         tDate -= amountOfStudents; // amountOfStudents!=0
       }
-      if (!newNumber(tDate, output)) {
+      if (!isNumberNew(tDate, output)) {
         if (output.length >= amountOfStudents) {
           tDate = output[output.length - amountOfStudents]; // repeat numbers by force
         } else {
@@ -41,7 +47,7 @@ export default function App() {
             if (tDate > amountOfStudents) {
               tDate -= amountOfStudents; // amountOfStudents!=0
             }
-          } while (!newNumber(tDate, output));
+          } while (!isNumberNew(tDate, output));
         }
       }
       output.push(tDate);
@@ -50,9 +56,9 @@ export default function App() {
     return output;
   }
 
-  function newNumber(newNum: number, oldNums: number[]) {
+  function isNumberNew(num: number, oldNums: number[]) {
     for (let i = 0; i < oldNums.length; i++) {
-      if (newNum === oldNums[i]) {
+      if (num === oldNums[i]) {
         return false;
       }
     }
