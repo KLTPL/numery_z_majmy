@@ -2,15 +2,20 @@ import { useState, useEffect } from "react";
 import InputNumber from "./InputNumber";
 import "./App.css";
 import calcOutput from "./calcOutput";
+import calcOutputsFrequencyForYear, {
+  calcAmountOfDaysInMonth,
+} from "./calcOutputsFrequency";
 
 const AMOUNT_OF_STUDENTS_DEFAULT = 32;
 
+console.table(calcOutputsFrequencyForYear(AMOUNT_OF_STUDENTS_DEFAULT, 2024));
+
 export default function App() {
   const lStorageAmountOfSutdents = parseInt(
-    localStorage.getItem("amountOfStudents") as string
+    localStorage.getItem("amountOfStudents") as string,
   );
   const lStorageYourNumber = parseInt(
-    localStorage.getItem("yourNumber") as string
+    localStorage.getItem("yourNumber") as string,
   );
 
   const newDate = new Date();
@@ -19,14 +24,17 @@ export default function App() {
   const [amountOfStudents, setAmountOfStudents] = useState(
     isNaN(lStorageAmountOfSutdents)
       ? AMOUNT_OF_STUDENTS_DEFAULT
-      : lStorageAmountOfSutdents
+      : lStorageAmountOfSutdents,
   );
-  const lastDayOfMonth = new Date(newDate.getFullYear(), month, 0).getDate();
+  const amountOfDaysInMonth = calcAmountOfDaysInMonth(
+    newDate.getFullYear(),
+    newDate.getMonth() + 1,
+  );
   const [yourNumber, setYourNumber] = useState(
-    isNaN(lStorageYourNumber) ? 1 : lStorageYourNumber
+    isNaN(lStorageYourNumber) ? 1 : lStorageYourNumber,
   );
   const [amountOfOutputs, setAmountOfOutputs] = useState(
-    AMOUNT_OF_STUDENTS_DEFAULT
+    AMOUNT_OF_STUDENTS_DEFAULT,
   );
 
   function callCalcOutput() {
@@ -53,7 +61,7 @@ export default function App() {
                   max: null,
                   setFunction: setYourNumber,
                   additionalOnChangeFunction: (
-                    ev: React.ChangeEvent<HTMLInputElement>
+                    ev: React.ChangeEvent<HTMLInputElement>,
                   ) => {
                     const value = ev.target.value;
                     if (!isNaN(parseInt(value))) {
@@ -95,7 +103,7 @@ export default function App() {
                 {...{
                   defaultValue: date,
                   min: 1,
-                  max: lastDayOfMonth,
+                  max: amountOfDaysInMonth,
                   setFunction: setDate,
                   additionalOnChangeFunction: () => {},
                 }}
@@ -110,7 +118,7 @@ export default function App() {
                   max: null,
                   setFunction: setAmountOfStudents,
                   additionalOnChangeFunction: (
-                    ev: React.ChangeEvent<HTMLInputElement>
+                    ev: React.ChangeEvent<HTMLInputElement>,
                   ) => {
                     const value = ev.target.value;
                     if (!isNaN(parseInt(value))) {
